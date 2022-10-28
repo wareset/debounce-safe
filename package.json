@@ -1,0 +1,38 @@
+{
+  "name": "debounce-safe",
+  "version": "1.0.0",
+  "description": "Safe debounce and throttle",
+  "keywords": [
+    "debounce",
+    "throttle"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/wareset/debounce-safe#readme",
+  "bugs": {
+    "url": "https://github.com/wareset/debounce-safe/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wareset/debounce-safe.git"
+  },
+  "author": "rease <cftcview@gmail.com>",
+  "main": "index",
+  "module": "index.mjs",
+  "types": "index.d.ts",
+  "files": [
+    "README.md",
+    "index.d.ts",
+    "index.js",
+    "index.mjs",
+    "types"
+  ],
+  "scripts": {
+    "dester": "dester ./src ./ -t types",
+    "build": "npm run -s dester -- -r -m",
+    "dev": "npm run -s dester -- -w --no-r -m"
+  },
+  "devDependencies": {
+    "dester": "0.x",
+    "typescript": "4.x"
+  }
+}
