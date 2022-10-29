@@ -7,33 +7,27 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 
-var n = function(n, t, u) {
-    return function(e, o, r, i) {
-        o = (o |= 0) > 0 ? o : 1, r = !!r, i = !i && r;
-        var c, f, l, s = u, a = !0;
+var n = function(n, t, e) {
+    return function(u, r, o, i) {
+        r = (r |= 0) > 0 ? r : 1, o = !!o, i = !i && o;
+        var c, f, l, s = e, a = !0;
         function p() {
-            s = u, i ? c = f = u : v(c, f);
+            s = e, i ? c = f = e : f && d(c, f);
         }
-        function d() {
-            s === u || (t(s), s = u);
+        function d(n, t) {
+            return a && (c = f = e, a = !1, l = u.apply(n, t), a = !0), l;
         }
         function h() {
-            s = n(p, o);
+            c = this, f = arguments, s === e ? (s = n(p, r), o && d(c, f)) : (t(s), s = n(p, r));
         }
-        function v(n, t) {
-            return t && a && (c = f = u, a = !1, l = e.apply(n, t), a = !0), l;
+        function v() {
+            return s === e || (t(s), s = e), o && (s = n(p, r)), a = !0, d(this, arguments);
         }
-        function y() {
-            c = this, f = arguments, s === u ? (h(), r && v(c, f)) : (d(), h());
-        }
-        function m() {
-            return d(), r && h(), a = !0, v(this, arguments);
-        }
-        return y.clear = function() {
-            d(), c = f = u;
-        }, y.flush = function() {
-            f && m.apply(c, f);
-        }, y.cross = m, y;
+        return h.clear = function() {
+            s === e || t(s), c = f = s = e;
+        }, h.flush = function() {
+            f && v.apply(c, f);
+        }, h.cross = v, h;
     };
 }(setTimeout, clearTimeout, null);
 

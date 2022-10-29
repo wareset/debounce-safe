@@ -17,13 +17,11 @@ const debounce = ((function(setTimeout, clearTimeout, _null_) {
       tID: ReturnType<typeof setTimeout> | null = _null_, run = true
   
     function awaiter(): void {
-      tID = _null_, noTrailing ? iam = args = _null_ : exec(iam, args)
+      tID = _null_, noTrailing ? iam = args = _null_ : args && exec(iam, args)
     }
-    function clearID(): void { tID === _null_ || (clearTimeout(tID), tID = _null_) }
-    function timeout(): void { tID = setTimeout(awaiter, wait) }
   
     function exec(_iam: any, _args: any): any {
-      _args && run &&
+      run &&
       (iam = args = _null_, run = false, res = func.apply(_iam, _args), run = true)
       return res
     }
@@ -31,18 +29,19 @@ const debounce = ((function(setTimeout, clearTimeout, _null_) {
     function debounced(this: any): void {
       iam = this, args = arguments
       tID === _null_
-        ? (timeout(), leading && exec(iam, args))
-        : (clearID(), timeout())
+        ? (tID = setTimeout(awaiter, wait), leading && exec(iam, args))
+        : (clearTimeout(tID), tID = setTimeout(awaiter, wait))
     }
   
     function clear(): void {
-      clearID(), iam = args = _null_
+      tID === _null_ || clearTimeout(tID), iam = args = tID = _null_
     }
     function flush(): void {
       args && cross.apply(iam, args)
     }
     function cross(this: any): any {
-      clearID(), leading && timeout()
+      tID === _null_ || (clearTimeout(tID), tID = _null_)
+      leading && (tID = setTimeout(awaiter, wait))
       return run = true, exec(this, arguments)
     }
     debounced.clear = clear
@@ -63,7 +62,7 @@ const debounce = ((function(setTimeout, clearTimeout, _null_) {
   ): (
     Debounced<Parameters<(
       func: (...a: FuncArgs) => FuncReturn, wait: TimeoutWait,
-      leading: IsLeading, trailing: IsTrailing
+      leading: IsLeading, trailing: IsLeading extends false ? true : IsTrailing
     ) => void>>
   )
 })
