@@ -1,7 +1,7 @@
 {
   "name": "debounce-safe",
   "version": "1.0.0",
-  "description": "Safe debounce and throttle",
+  "description": "Safe debounce",
   "keywords": [
     "debounce",
     "throttle"

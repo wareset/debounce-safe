@@ -1,4 +1,4 @@
-export interface DebounceSafe<Props extends any[]> {
+export interface Debounced<Props extends any[]> {
   (...a: Parameters<Props[0]>): void
   clear: () => void
   flush: () => void
@@ -7,16 +7,17 @@ export interface DebounceSafe<Props extends any[]> {
 
 const debounce = ((function(setTimeout, clearTimeout, _null_) {
   return function debounce(
-    func: Function, wait: number, leading: boolean, throttle: boolean
+    func: Function, wait: number, leading: boolean, noTrailing: boolean
   ) {
-    leading = !!leading, throttle = !!throttle
-    
+    // for universal compatibility
+    wait = (wait |= 0) > 0 ? wait : 1
+    leading = !!leading, noTrailing = !noTrailing && leading /* ))) */
+
     let iam: any, args: any, res: any,
       tID: ReturnType<typeof setTimeout> | null = _null_, run = true
   
     function awaiter(): void {
-      tID = _null_
-      !leading || leading !== throttle ? exec(iam, args) : iam = args = _null_
+      tID = _null_, noTrailing ? iam = args = _null_ : exec(iam, args)
     }
     function clearID(): void { tID === _null_ || (clearTimeout(tID), tID = _null_) }
     function timeout(): void { tID = setTimeout(awaiter, wait) }
@@ -31,7 +32,7 @@ const debounce = ((function(setTimeout, clearTimeout, _null_) {
       iam = this, args = arguments
       tID === _null_
         ? (timeout(), leading && exec(iam, args))
-        : throttle || (clearID(), timeout())
+        : (clearID(), timeout())
     }
   
     function clear(): void {
@@ -55,14 +56,14 @@ const debounce = ((function(setTimeout, clearTimeout, _null_) {
     FuncReturn extends any,
     TimeoutWait extends number = 1,
     IsLeading extends boolean = false,
-    IsThrottle extends boolean = false
+    IsTrailing extends boolean = false
   >(
     func: (...a: FuncArgs) => FuncReturn, wait?: TimeoutWait,
-    leading?: IsLeading, throttle?: IsThrottle
+    leading?: IsLeading, trailing?: IsTrailing
   ): (
-    DebounceSafe<Parameters<(
+    Debounced<Parameters<(
       func: (...a: FuncArgs) => FuncReturn, wait: TimeoutWait,
-      leading: IsLeading, throttle: IsThrottle
+      leading: IsLeading, trailing: IsTrailing
     ) => void>>
   )
 })

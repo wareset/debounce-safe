@@ -1,5 +1,4 @@
 const lodash_debounce = require('lodash.debounce')
-// const lodash_throttly = require('lodash.throttly')
 
 const debounce_safely = require('..').default
 
@@ -9,12 +8,6 @@ debounce_safely(fn, 21, false)
 
 debounce_safely(fn, 111, true)
 / like _.debounce(fn, 111, { leading: true, trailing: true })
-
-debounce_safely(fn, 21, false, true)
-/ like _.throttly(fn, 21, { leading: false, trailing: true })
-
-debounce_safely(fn, 12, true, true)
-/ like _.throttly(fn, 12, { leading: true, trailing: false })
 */
 
 const lodash = lodash_debounce((n) => {
