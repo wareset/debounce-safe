@@ -1,2 +1,2 @@
 # debounce-safe
-Safe debounce and throttle
+Safe debounce

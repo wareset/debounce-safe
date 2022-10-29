@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Safe debounce",
   "keywords": [
-    "debounce",
-    "throttle"
+    "debounce"
   ],
   "license": "MIT",
   "homepage": "https://github.com/wareset/debounce-safe#readme",
