@@ -24,9 +24,9 @@ const safely = debounce_safely((n) => {
   return n
 }, 1000, true, false)
 
-// test cross method
-if (safely.cross(111) !== 111 || safely.cross(121) !== 121) {
-  throw new Error('Method "cross" not work')
+// test cause method
+if (safely.cause(111) !== 111 || safely.cause(121) !== 121) {
+  throw new Error('Method "cause" not work')
 }
 safely.clear()
 

@@ -4,26 +4,27 @@ dester builds:
 index.ts
 */
 var n = function(n, t, u) {
-    return function(r, i, o, c) {
-        i = (i |= 0) > 0 ? i : 1, o = !!o, c = !c && o;
-        var e, f, a, l = u, s = !0;
-        function p() {
-            l = u, c ? e = f = u : f && h(e, f);
+    return function(r, e, i, c) {
+        e = (e |= 0) > 0 ? e : 1, i = !!i, c = !c && i;
+        var o, f, a, l = u, s = !0;
+        function p(n, t) {
+            return s && (o = f = u, s = !1, a = r.apply(n, t), s = !0), a;
         }
-        function h(n, t) {
-            return s && (e = f = u, s = !1, a = r.apply(n, t), s = !0), a;
+        function h() {
+            l = u, c ? o = f = u : f && p(o, f);
         }
         function m() {
-            e = this, f = arguments, l === u ? (l = n(p, i), o && h(e, f)) : (t(l), l = n(p, i));
+            o = this, f = arguments, l === u ? (l = n(h, e), i && p(o, f)) : (t(l), l = n(h, e));
         }
         function v() {
-            return l === u || (t(l), l = u), o && (l = n(p, i)), s = !0, h(this, arguments);
+            l === u || t(l), o = f = l = u;
         }
-        return m.clear = function() {
-            l === u || t(l), e = f = l = u;
-        }, m.flush = function() {
-            f && v.apply(e, f);
-        }, m.cross = v, m;
+        function y() {
+            return v(), l = n(h, e), s = !0, p(this, arguments);
+        }
+        return m.clear = v, m.cause = y, m.flush = function() {
+            f && y.apply(o, f);
+        }, m;
     };
 }(setTimeout, clearTimeout, null);
 
