@@ -3,8 +3,8 @@ Safe debounce.
 
 ## Usage:
 debounce(func: `function`, [wait: `number` = 1, [leading: `boolean` = false, [trailing*: `boolean`]]])
-// * - if "leading" is `false`, "trailing" always will be `true`. Otherwise, the 'func' will never called.
 
+// * - if "leading" is `false`, "trailing" always will be `true`. Otherwise, the 'func' will never be called.
 
 #### Base:
 ```js
@@ -54,9 +54,13 @@ debouncedFunc.cause(2, 3) // => 5
 ```
 
 ## Why is there another `debounce` on the `npm`?
-I was looking for a function that could work quickly, without having anything superfluous in the code. And, most importantly, it is safe to call itself recursively. But I didn't find one, because all other libraries can be divided into two types - either very simple or very redundant.
+I was looking for a function that could work quickly without having anything extra in the code. And, most importantly, it should be safe to recursively call itself. 
 
-But not one of them is safe for recursive calls. For example:
+But I didn't find any, because all the other libraries can be divided into two types - either very simple or very redundant.
+
+And none of the existing solutions were safe for recursive calls.
+
+For example:
 
 ```js
 import _debounce from 'lodash.debounce'
