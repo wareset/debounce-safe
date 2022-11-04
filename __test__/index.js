@@ -6,7 +6,10 @@ const debounce_safely = require('..').default
 debounce_safely(fn, 21, false)
 / like _.debounce(fn, 21, { leading: false, trailing: true })
 
-debounce_safely(fn, 111, true)
+debounce_safely(fn, 12, true)
+/ like _.debounce(fn, 12, { leading: true, trailing: false })
+
+debounce_safely(fn, 111, true, true)
 / like _.debounce(fn, 111, { leading: true, trailing: true })
 */
 
@@ -22,7 +25,7 @@ const safely = debounce_safely((n) => {
   if (n < 5) safely(n + 1)
   console.log('safely exit', n)
   return n
-}, 1000, true, false)
+}, 1000, true, true)
 
 // test cause method
 if (safely.cause(111) !== 111 || safely.cause(121) !== 121) {
