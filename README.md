@@ -128,3 +128,6 @@ debouncedFunc(0)
 // And this is the behavior that I expected
 
 ```
+
+## License
+[MIT](LICENSE)
