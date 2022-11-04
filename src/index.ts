@@ -65,7 +65,7 @@ const debounce = ((function(setTimeout, clearTimeout, _null_) {
   ): (
     Debounced<Parameters<(
       func: (...a: FuncArgs) => FuncReturn, wait: TimeoutWait,
-      leading: IsLeading, trailing: IsLeading extends true ? IsTrailing : true
+      leading: IsLeading, trailing: IsLeading extends false ? true : IsLeading extends true ? IsTrailing : boolean
     ) => void>>
   )
 })
