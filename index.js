@@ -1,8 +1,4 @@
 /* eslint-disable */
-/*
-dester builds:
-index.ts
-*/
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

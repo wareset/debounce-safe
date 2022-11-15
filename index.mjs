@@ -1,8 +1,4 @@
 /* eslint-disable */
-/*
-dester builds:
-index.ts
-*/
 var n = function(n, t, u) {
     return function(r, e, i, c) {
         e = (e |= 0) > 0 ? e : 1, i = !!i, c = !c && i;
