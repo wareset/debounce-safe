@@ -9,15 +9,27 @@ function debounce<
   Fn extends Function,
   Wait extends number = 0,
   IsLeading extends boolean = false,
+  IsTrailing extends boolean = true,
   MaxWait extends number = -1,
 >(
   fn: Fn,
   wait?: Wait,
-  isLeading?: IsLeading,
-  maxWait?: MaxWait
+  opts?: {
+    leading?: IsLeading
+    trailing?: IsTrailing
+    maxWait?: MaxWait
+  }
 ): Debounced<
   Parameters<
-    (fn: Fn, wait: Wait, isLeading: IsLeading, maxWait: MaxWait) => void
+    (
+      fn: Fn,
+      wait: Wait,
+      opts: {
+        leading: IsLeading
+        trailing: IsTrailing
+        maxWait: MaxWait
+      }
+    ) => void
   >
 > {
   let iam: any,
@@ -25,40 +37,33 @@ function debounce<
     res: any,
     tID: ReturnType<typeof setTimeout> | null = null,
     mID: ReturnType<typeof setTimeout> | null = null,
-    run = 2147483648
+    run = 1,
+    isLeading = opts && opts.leading,
+    isTrailing = (opts && opts.trailing) || !isLeading,
+    maxWait: number
 
+    // @ts-ignore
+  ;(wait! |= 0) >= 0 || (wait = 0)
   // @ts-ignore
-  ;(wait >= 0 && wait < run) || (wait = 0)
-  // @ts-ignore
-  ;(maxWait >= 0 && maxWait < run) || (maxWait = NaN)
+  ;(maxWait! |= 0) > wait || (maxWait = NaN)
   // noTrailing = !noTrailing && isLeading /* ))) */
 
   function exec(_iam: any, _args: any): any {
-    if (run) {
-      mID === null || clearTimeout(mID), (mID = null)
-      iam = args = null
-      run = 0
-      res = fn.apply(_iam, _args)
-      run = 1
-    }
+    run &&
+      ((iam = args = null), (run = 0), (res = fn.apply(_iam, _args)), (run = 1))
   }
 
   function awaiter(): void {
     tID = null
-    // здесь был noTrailing
-    isLeading ? (iam = args = null) : args && exec(iam, args)
+    isTrailing ? args && exec(iam, args) : (iam = args = null)
   }
 
   function debounced(this: any): void {
-    iam = this
-    args = arguments
-    if (tID === null) {
-      tID = setTimeout(awaiter, wait)
-      isLeading && exec(iam, args)
-    } else {
-      clearTimeout(tID), (tID = setTimeout(awaiter, wait))
-    }
-    maxWait! >= 0 && mID === null && (mID = setTimeout(flush, maxWait))
+    ;(iam = this), (args = arguments)
+    tID === null
+      ? ((tID = setTimeout(awaiter, wait)), isLeading && exec(iam, args))
+      : (clearTimeout(tID), (tID = setTimeout(awaiter, wait)))
+    maxWait && mID === null && (mID = setTimeout(flush, maxWait))
   }
 
   function clear(): void {

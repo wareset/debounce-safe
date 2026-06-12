@@ -4,5 +4,5 @@ export interface Debounced<Props extends any[]> {
     flush: () => void;
     cause: Props[0];
 }
-declare const debounce: <FuncArgs extends any[], FuncReturn extends unknown, TimeoutWait extends number = 1, IsLeading extends boolean = false, IsTrailing extends boolean = false>(func: (...a: FuncArgs) => FuncReturn, wait?: TimeoutWait, leading?: IsLeading, trailing?: IsTrailing) => Debounced<[func: (...a: FuncArgs) => FuncReturn, wait: TimeoutWait, leading: IsLeading, trailing: IsLeading extends false ? true : IsLeading extends true ? IsTrailing : boolean]>;
+declare function debounce<Fn extends Function, Wait extends number = 0, IsLeading extends boolean = false, MaxWait extends number = -1>(fn: Fn, wait?: Wait, isLeading?: IsLeading, maxWait?: MaxWait): Debounced<Parameters<(fn: Fn, wait: Wait, isLeading: IsLeading, maxWait: MaxWait) => void>>;
 export default debounce;

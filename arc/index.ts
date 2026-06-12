@@ -17,30 +17,32 @@ function debounce<
   maxWait?: MaxWait
 ): Debounced<
   Parameters<
-    (fn: Fn, wait: Wait, isLeading: IsLeading, maxWait: MaxWait) => void
+    (
+      fn: Fn,
+      wait: Wait,
+      isLeading: IsLeading,
+      maxWait: MaxWait
+    ) => void
   >
 > {
+  // @ts-ignore
+  ;(wait! |= 0) >= 0 || (wait = 0)
+  // @ts-ignore
+  ;(maxWait! |= 0) > wait || (maxWait = NaN)
+  // noTrailing = !noTrailing && isLeading /* ))) */
   let iam: any,
     args: any,
     res: any,
     tID: ReturnType<typeof setTimeout> | null = null,
     mID: ReturnType<typeof setTimeout> | null = null,
-    run = 2147483648
-
-  // @ts-ignore
-  ;(wait >= 0 && wait < run) || (wait = 0)
-  // @ts-ignore
-  ;(maxWait >= 0 && maxWait < run) || (maxWait = NaN)
-  // noTrailing = !noTrailing && isLeading /* ))) */
+    run = 1
 
   function exec(_iam: any, _args: any): any {
-    if (run) {
-      mID === null || clearTimeout(mID), (mID = null)
-      iam = args = null
-      run = 0
-      res = fn.apply(_iam, _args)
-      run = 1
-    }
+    run &&
+      ((iam = args = null),
+      (run = 0),
+      (res = fn.apply(_iam, _args)),
+      (run = 1))
   }
 
   function awaiter(): void {
@@ -50,15 +52,11 @@ function debounce<
   }
 
   function debounced(this: any): void {
-    iam = this
-    args = arguments
-    if (tID === null) {
-      tID = setTimeout(awaiter, wait)
-      isLeading && exec(iam, args)
-    } else {
-      clearTimeout(tID), (tID = setTimeout(awaiter, wait))
-    }
-    maxWait! >= 0 && mID === null && (mID = setTimeout(flush, maxWait))
+    ;(iam = this), (args = arguments)
+    tID === null
+      ? ((tID = setTimeout(awaiter, wait)), isLeading && exec(iam, args))
+      : (clearTimeout(tID), (tID = setTimeout(awaiter, wait)))
+    maxWait && mID === null && (mID = setTimeout(flush, maxWait))
   }
 
   function clear(): void {
