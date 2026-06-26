@@ -1,6 +1,6 @@
 {
   "name": "debounce-safe",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Safe debounce",
   "keywords": [
     "debounce"
@@ -38,9 +38,7 @@
     "dev": "dester -mw"
   },
   "devDependencies": {
-    "dester": "1.0.x"
-  },
-  "peerDependencies": {
-    "typescript": "5.x"
+    "dester": "1.0.x",
+    "typescript": "*"
   }
 }
